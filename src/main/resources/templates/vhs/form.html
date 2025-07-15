@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${vhs?.id == null ? 'Nova Fita VHS' : 'Editar Fita VHS'}">Fita VHS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container mt-4">
+    <h1 th:text="${vhs?.id == null ? 'Nova Fita VHS' : 'Editar Fita VHS'}">Fita VHS</h1>
+    
+    <form th:action="@{/vhs/salvar}" th:object="${vhs}" method="post" novalidate>
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título <span class="text-danger">*</span></label>
+            <input type="text" id="titulo" th:field="*{titulo}" 
+                   class="form-control" 
+                   th:classappend="${#fields.hasErrors('titulo')} ? 'is-invalid' : ''"
+                   placeholder="Título da fita" required/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="imagemUrl" class="form-label">URL da Imagem</label>
+            <input type="url" id="imagemUrl" th:field="*{imagemUrl}" 
+                   class="form-control" 
+                   th:classappend="${#fields.hasErrors('imagemUrl')} ? 'is-invalid' : ''"
+                   placeholder="https://exemplo.com/imagem.jpg"/>
+            <div class="form-text">URL da imagem de capa (opcional)</div>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('imagemUrl')}" th:errors="*{imagemUrl}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="diretor" class="form-label">Diretor <span class="text-danger">*</span></label>
+            <input type="text" id="diretor" th:field="*{diretor}" 
+                   class="form-control" 
+                   th:classappend="${#fields.hasErrors('diretor')} ? 'is-invalid' : ''"
+                   placeholder="Nome do diretor" required/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('diretor')}" th:errors="*{diretor}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="categoria" class="form-label">Categoria <span class="text-danger">*</span></label>
+            <select id="categoria" th:field="*{categoria}" 
+                    class="form-select" 
+                    th:classappend="${#fields.hasErrors('categoria')} ? 'is-invalid' : ''"
+                    required>
+                <option value="">Selecione uma categoria</option>
+                <option th:each="cat : ${categorias}"
+                        th:value="${cat.id}"
+                        th:text="${cat.nome}"
+                        th:selected="${vhs?.categoria?.id == cat.id}"></option>
+            </select>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+            <select id="status" th:field="*{status}" 
+                    class="form-select" 
+                    th:classappend="${#fields.hasErrors('status')} ? 'is-invalid' : ''"
+                    required>
+                <option value="">Selecione um status</option>
+                <option th:each="stat : ${statusList}"
+                        th:value="${stat}"
+                        th:text="${stat}"
+                        th:selected="${vhs?.status == stat}"></option>
+            </select>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-circle"></i> Salvar
+            </button>
+            <a href="/vhs" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
