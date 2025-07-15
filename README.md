@@ -5,7 +5,7 @@ O objetivo foi praticar conceitos de desenvolvimento web usando Java com Spring 
 
 Tecnologias Utilizadas:
 
-Java 17
+Java 24;
 Spring Boot;
 Thymeleaf para as views/templates;
 Maven para gerenciamento de dependências e build;
